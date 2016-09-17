@@ -9,18 +9,22 @@ var places = [
 	{title: 'Jade Garden', location: {lat: 46.6170219,lng: -112.0211496}},
 	{title: 'MacKenzie River Pizza Co.', location: {lat: 46.6181675,lng: -112.0211826}}
 ];
-markers = [];
+var markers = ko.observableArray([]);
 
 var Place = function(place, i) {
 	this.title = place.title;
 	this.marker = markers[i];
 }
 
-// const hPlaces = ko.observableArray();
+var query = ko.observable('');
 
-// places.forEach(function(place, i) {
-// 	hPlaces.push(new Place(place, i));
-// });
+self.filteredMarkers = ko.computed(function() {
+	// var search = this.query().toLowerCase();
+	return markers().filter(function(fmarker) {
+		if(!query() || fmarker.title.toLowerCase().indexOf(query().toLowerCase()) !== -1)
+			return fmarker;
+	});
+}, this);
 
 // These are the locations that will be shown to the user.
 var ViewModel = function() {
@@ -345,9 +349,9 @@ var ViewModel = function() {
 	function showMarkers() {
 		var bounds = new google.maps.LatLngBounds();
 		// Extend the boundaries of the map for each marker and display the marker
-		for (var i = 0; i < markers.length; i++) {
-			markers[i].setMap(self.map);
-			bounds.extend(markers[i].position);
+		for (var i = 0; i < markers().length; i++) {
+			markers()[i].setMap(self.map);
+			bounds.extend(markers()[i].position);
 		}
 		self.map.fitBounds(bounds);
 	}
