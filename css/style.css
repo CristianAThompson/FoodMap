@@ -1,0 +1,74 @@
+@media screen and (max-width: 480px) {
+
+  .list-item {
+    border: 1px solid #999;
+    margin: 4px 0;
+    text-align: center;
+  }
+
+  #list {
+    z-index: 1;
+    background: #fff;
+    position: fixed;
+    border: 1px solid #999;
+    border-radius: 2px;
+    padding-left: 3px;
+    line-height: 25px;
+    width: 35%;
+  }
+
+  #placeslist {
+    list-style-type: none;
+    padding: 0 5px;
+    max-width: 90%;
+  }
+
+  #map {
+    height: 100%;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    position: absolute;
+  }
+}
+@media screen and (min-width: 481px){
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .list-item {
+    border: 1px solid #999;
+    margin: 4px 0;
+    text-align: center;
+  }
+
+  #map {
+    height: 100%;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    position: absolute;
+  }
+
+  #pano {
+    width: 260px;
+    height: 260px;
+  }
+
+  #list {
+    z-index: 1;
+    background: #fff;
+    position: absolute;
+    border: 1px solid #999;
+    border-radius: 3px;
+    line-height: 25px;
+    width: 200px;
+  }
+
+  #placeslist {
+    list-style-type: none;
+    padding: 0 5px;
+  }
+}
