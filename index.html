@@ -9,7 +9,8 @@
   <body>
   	<div class="container">
       <div id="list">
-        <ul id="placeslist" data-bind="foreach: markers">
+        <input class="filter" type="text" name="filter" data-bind="textInput: query" placeholder="Search the List!">
+        <ul id="placeslist" data-bind="foreach: filteredMarkers">
           <li class="list-item" data-bind="text: title, click: remoteMarker"></li>
         </ul>
       </div>

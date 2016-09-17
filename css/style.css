@@ -14,7 +14,7 @@
     border-radius: 2px;
     padding-left: 3px;
     line-height: 25px;
-    width: 35%;
+    width: 200px;
   }
 
   #placeslist {
@@ -41,6 +41,15 @@
   .list-item {
     border: 1px solid #999;
     margin: 4px 0;
+    text-align: center;
+  }
+
+  .filter {
+    display: block;
+    border: 1px solid #999;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
   }
 
