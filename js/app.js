@@ -323,6 +323,7 @@ var ViewModel = function() {
 			foodWindow.setContent("<div> This fantastic location is: <strong>" + marker.title + "</strong></div>");
 			foodWindow.open(map, marker);
 			toggleDrop(this);
+			document.getElementById("yelpDiv").innerHTML = '<p>' + marker.title + '</p>';
 		});
 
 		// Add bounce effect to currently clicked icon
@@ -331,6 +332,10 @@ var ViewModel = function() {
 					marker.setAnimation(null);
 				} else {
 					marker.setAnimation(google.maps.Animation.DROP);
+					marker.setIcon(highlightedIcon);
+					setTimeout(function() {
+						marker.setIcon(defaultIcon);
+					}, 1500);
 				}
 		}
 
@@ -378,8 +383,8 @@ var ViewModel = function() {
 // isn't the marker.
 function remoteMarker(place) {
 	var marker = place.marker;
-	console.log('click', place);
 	google.maps.event.trigger(this, 'click');
+
 }
 
 function initMap() {
