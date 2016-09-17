@@ -320,10 +320,10 @@ var ViewModel = function() {
 		// Create an onclick event to open the large infowindow at each marker.
 		marker.addListener('click', function() {
 			var marker = this;
-			foodWindow.setContent("<div> This fantastic location is: <strong>" + marker.title + "</strong></div>");
+			foodWindow.setContent("<div> This fantastic location is: <strong>" + marker.title + "</strong>"+
+			"</div><br><div>All<br>My<br>Food<br>Info<br>Here!</div>");
 			foodWindow.open(map, marker);
 			toggleDrop(this);
-			document.getElementById("yelpDiv").innerHTML = '<p>' + marker.title + '</p>';
 		});
 
 		// Add bounce effect to currently clicked icon
@@ -335,7 +335,7 @@ var ViewModel = function() {
 					marker.setIcon(highlightedIcon);
 					setTimeout(function() {
 						marker.setIcon(defaultIcon);
-					}, 1500);
+					}, 3000);
 				}
 		}
 
