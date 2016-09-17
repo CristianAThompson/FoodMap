@@ -8,13 +8,17 @@
   </head>
   <body>
   	<div class="container">
+      <div class="mapDiv" id="mapDiv">
+        <div id="map"></div>
+      </div>
+      <div class="yelpDiv" id="yelpDiv">
+      </div>
       <div id="list">
         <input class="filter" type="text" name="filter" data-bind="textInput: query" placeholder="Search the List!">
         <ul id="placeslist" data-bind="foreach: filteredMarkers">
           <li class="list-item" data-bind="text: title, click: remoteMarker"></li>
         </ul>
       </div>
-      <div id="map"></div>
     </div>
     <script src="js/lib/knockout-3.2.0.js"></script>
     <script async defer src="js/app.js"></script>
