@@ -15,7 +15,7 @@ var markers = ko.observableArray([]);
 var query = ko.observable('');
 
 // filters the markers using a forced lowercase evaluation between query and each title in the list
-self.filteredMarkers = ko.computed(function() {
+var filteredMarkers = ko.computed(function() {
 	// var search = this.query().toLowerCase();
 	return markers().filter(function(fmarker) {
 		if(!query() || fmarker.title.toLowerCase().indexOf(query().toLowerCase()) !== -1)
@@ -130,7 +130,7 @@ var ViewModel = function() {
     }
 ];
 	// defines the initial map and zoom level
-	self.map = new google.maps.Map(document.getElementById('map'), {
+	var map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 14,
 		styles: styles
 	});
@@ -157,8 +157,7 @@ var ViewModel = function() {
 			fs: fs,
 			title: title,
 			animation: google.maps.Animation.DROP,
-			icon: defaultIcon,
-			id: i
+			icon: "markers/crossed-knife-and-fork.png"
 		});
 
 		markers.push(marker);
@@ -175,7 +174,8 @@ var ViewModel = function() {
 			}).done(function(response) {
 				foodWindow.setContent("<div> This fantastic location is: <strong>" + marker.title + "</strong>"+
 				"</div><br><br><div style='text-align: center'>" + response.response.venues[0].location.formattedAddress +
-				"<br> <a href='" + response.response.venues[0].menu.mobileUrl + "'>Click for the menu!</a></div>");
+				"<br> <a href='" + response.response.venues[0].menu.mobileUrl + "'>Click for the menu!</a></div><br>" +
+				"<div style='text-align: center'>Location and Menu from <a href='http://www.foursquare.com'>FourSquare</a></div>");
 				foodWindow.open(map, marker);
 			}).fail(function(jqXHR) {
 					alert('Error: ' + jqXHR.status + ' - Service Currently Unavailable (Try again later)');
@@ -212,10 +212,10 @@ var ViewModel = function() {
 		var bounds = new google.maps.LatLngBounds();
 		// Extend the boundaries of the map for each marker and display the marker
 		for (var i = 0; i < markers().length; i++) {
-			markers()[i].setMap(self.map);
+			markers()[i].setMap(map);
 			bounds.extend(markers()[i].position);
 		}
-		self.map.fitBounds(bounds);
+		map.fitBounds(bounds);
 	}
 
 	// This function takes in a COLOR, and then creates a new marker
@@ -245,4 +245,3 @@ function initMap() {
 
 
 // Fork and Knife Icons Attribution: http://www.flaticon.com/free-icon/restaurant_93192#term=fork&page=1&position=46 by Freepik
-//
