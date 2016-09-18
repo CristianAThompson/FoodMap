@@ -2,12 +2,12 @@ var map;
 
 var self = this;
 var places = [
-	{title: 'Park Avenue Bakery', location: {lat: 46.586355,lng: -112.040753}, fs: 'Park+Avenue+Bakery'},
-	{title: 'Suds Hut', location: {lat: 46.6128834,lng: -112.0211412}, fs: 'Suds+Hut'},
-	{title: 'Jade Garden', location: {lat: 46.6170219,lng: -112.0211496}, fs: 'Jade+Garden'},
-	{title: 'MacKenzie River Pizza Co.', location: {lat: 46.6181675,lng: -112.0211826}, fs: 'MacKenzie+River+Pizza+Co.'},
-	{title: "Lucca's", location: {lat: 46.5885769,lng: -112.0389549}, fs: "Lucca+'+s"},
-	{title: 'Firehouse Coffee House', location: {lat: 46.5912034,lng: -112.0374789}, fs: 'Firehouse+Coffee+House'}
+	{title: 'Park Avenue Bakery', location: {lat: 46.586355,lng: -112.040753}},
+	{title: 'Suds Hut', location: {lat: 46.6128834,lng: -112.0211412}},
+	{title: 'Jade Garden', location: {lat: 46.6170219,lng: -112.0211496}},
+	{title: 'MacKenzie River Pizza Co.', location: {lat: 46.6181675,lng: -112.0211826}},
+	{title: "Lucca's", location: {lat: 46.5885769,lng: -112.0389549}},
+	{title: 'Firehouse Coffee House', location: {lat: 46.5912034,lng: -112.0374789}}
 ];
 var markers = ko.observableArray([]);
 
@@ -149,12 +149,10 @@ var ViewModel = function() {
 		// Get the position from the location array.
 		var lat = places[i].location;
 		var title = places[i].title;
-		var fs = places[i].fs;
 		// Create a marker per location, and put into markers array.
 		var marker = new google.maps.Marker({
 			map: map,
 			position: lat,
-			fs: fs,
 			title: title,
 			animation: google.maps.Animation.DROP,
 			icon: "markers/crossed-knife-and-fork.png"
@@ -170,7 +168,7 @@ var ViewModel = function() {
 			$.ajax({
 					type: 'GET',
 					dataType: 'jsonp',
-					url: "https://api.foursquare.com/v2/venues/search?query=" + fs + "&near=Helena+MT&client_id=GWJ522P5CWHSKMEU3YUXCRVBKYWWFRCTFAYMLPPIY4OPDRLH&client_secret=OVELCGKYUQV3JJEGAZSRHKN0CFV52P4I5OKQNHBFZCBHHSN1&v=20160917"
+					url: "https://api.foursquare.com/v2/venues/search?query=" + marker.title + "&near=Helena+MT&client_id=GWJ522P5CWHSKMEU3YUXCRVBKYWWFRCTFAYMLPPIY4OPDRLH&client_secret=OVELCGKYUQV3JJEGAZSRHKN0CFV52P4I5OKQNHBFZCBHHSN1&v=20160917"
 			}).done(function(response) {
 				foodWindow.setContent("<div> This fantastic location is: <strong>" + marker.title + "</strong>"+
 				"</div><br><br><div style='text-align: center'>" + response.response.venues[0].location.formattedAddress +
