@@ -16,7 +16,6 @@ var query = ko.observable('');
 
 // filters the markers using a forced lowercase evaluation between query and each title in the list
 var filteredMarkers = ko.computed(function() {
-	// var search = this.query().toLowerCase();
 	return markers().filter(function(fmarker) {
 		if(!query() || fmarker.title.toLowerCase().indexOf(query().toLowerCase()) !== -1)
 			return fmarker;
