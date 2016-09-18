@@ -2,22 +2,19 @@ var map;
 
 var self = this;
 var places = [
-	{title: 'Sweetgrass Bakery', location: {lat: 46.589938, lng: -112.038616}},
-	{title: 'Park Avenue Bakery', location: {lat: 46.586355,lng: -112.040753}},
-	{title: 'Cafe Zydeco', location: {lat: 46.5961329,lng: -112.034301}},
-	{title: 'Suds Hut', location: {lat: 46.6128834,lng: -112.0211412}},
-	{title: 'Jade Garden', location: {lat: 46.6170219,lng: -112.0211496}},
-	{title: 'MacKenzie River Pizza Co.', location: {lat: 46.6181675,lng: -112.0211826}}
+	{title: 'Park Avenue Bakery', location: {lat: 46.586355,lng: -112.040753}, fs: 'Park+Avenue+Bakery'},
+	{title: 'Suds Hut', location: {lat: 46.6128834,lng: -112.0211412}, fs: 'Suds+Hut'},
+	{title: 'Jade Garden', location: {lat: 46.6170219,lng: -112.0211496}, fs: 'Jade+Garden'},
+	{title: 'MacKenzie River Pizza Co.', location: {lat: 46.6181675,lng: -112.0211826}, fs: 'MacKenzie+River+Pizza+Co.'},
+	{title: "Lucca's", location: {lat: 46.5885769,lng: -112.0389549}, fs: "Lucca+'+s"},
+	{title: 'Firehouse Coffee House', location: {lat: 46.5912034,lng: -112.0374789}, fs: 'Firehouse+Coffee+House'}
 ];
 var markers = ko.observableArray([]);
 
-var Place = function(place, i) {
-	this.title = place.title;
-	this.marker = markers[i];
-}
-
+// defines the observable to be used to capture the user search input
 var query = ko.observable('');
 
+// filters the markers using a forced lowercase evaluation between query and each title in the list
 self.filteredMarkers = ko.computed(function() {
 	// var search = this.query().toLowerCase();
 	return markers().filter(function(fmarker) {
@@ -33,259 +30,106 @@ var ViewModel = function() {
 
 	var styles = [
 		{
-				"featureType": "administrative",
-				"elementType": "all",
-				"stylers": [
-						{
-								"visibility": "off"
-						}
-				]
-		},
-		{
-				"featureType": "administrative",
-				"elementType": "geometry.stroke",
-				"stylers": [
-						{
-								"visibility": "on"
-						}
-				]
-		},
-		{
-				"featureType": "administrative",
-				"elementType": "labels",
-				"stylers": [
-						{
-								"visibility": "on"
-						},
-						{
-								"color": "#716464"
-						},
-						{
-								"weight": "0.01"
-						}
-				]
-		},
-		{
-				"featureType": "administrative.country",
-				"elementType": "labels",
-				"stylers": [
-						{
-								"visibility": "on"
-						}
-				]
-		},
-		{
-				"featureType": "landscape",
-				"elementType": "all",
-				"stylers": [
-						{
-								"visibility": "simplified"
-						}
-				]
-		},
-		{
-				"featureType": "landscape.natural",
-				"elementType": "geometry",
-				"stylers": [
-						{
-								"visibility": "simplified"
-						}
-				]
-		},
-		{
-				"featureType": "landscape.natural.landcover",
-				"elementType": "geometry",
-				"stylers": [
-						{
-								"visibility": "simplified"
-						}
-				]
-		},
-		{
-				"featureType": "poi",
-				"elementType": "all",
-				"stylers": [
-						{
-								"visibility": "simplified"
-						}
-				]
-		},
-		{
-				"featureType": "poi",
-				"elementType": "geometry.fill",
-				"stylers": [
-						{
-								"visibility": "simplified"
-						}
-				]
-		},
-		{
-				"featureType": "poi",
-				"elementType": "geometry.stroke",
-				"stylers": [
-						{
-								"visibility": "simplified"
-						}
-				]
-		},
-		{
-				"featureType": "poi",
-				"elementType": "labels.text",
-				"stylers": [
-						{
-								"visibility": "simplified"
-						}
-				]
-		},
-		{
-				"featureType": "poi",
-				"elementType": "labels.text.fill",
-				"stylers": [
-						{
-								"visibility": "simplified"
-						}
-				]
-		},
-		{
-				"featureType": "poi",
-				"elementType": "labels.text.stroke",
-				"stylers": [
-						{
-								"visibility": "simplified"
-						}
-				]
-		},
-		{
-				"featureType": "poi.attraction",
-				"elementType": "geometry",
-				"stylers": [
-						{
-								"visibility": "on"
-						}
-				]
-		},
-		{
-				"featureType": "road",
-				"elementType": "all",
-				"stylers": [
-						{
-								"visibility": "on"
-						}
-				]
-		},
-		{
-				"featureType": "road.highway",
-				"elementType": "all",
-				"stylers": [
-						{
-								"visibility": "off"
-						}
-				]
-		},
-		{
-				"featureType": "road.highway",
-				"elementType": "geometry",
-				"stylers": [
-						{
-								"visibility": "on"
-						}
-				]
-		},
-		{
-				"featureType": "road.highway",
-				"elementType": "geometry.fill",
-				"stylers": [
-						{
-								"visibility": "on"
-						}
-				]
-		},
-		{
-				"featureType": "road.highway",
-				"elementType": "geometry.stroke",
-				"stylers": [
-						{
-								"visibility": "simplified"
-						},
-						{
-								"color": "#a05519"
-						},
-						{
-								"saturation": "-13"
-						}
-				]
-		},
-		{
-				"featureType": "road.local",
-				"elementType": "all",
-				"stylers": [
-						{
-								"visibility": "on"
-						}
-				]
-		},
-		{
-				"featureType": "transit",
-				"elementType": "all",
-				"stylers": [
-						{
-								"visibility": "simplified"
-						}
-				]
-		},
-		{
-				"featureType": "transit",
-				"elementType": "geometry",
-				"stylers": [
-						{
-								"visibility": "simplified"
-						}
-				]
-		},
-		{
-				"featureType": "transit.station",
-				"elementType": "geometry",
-				"stylers": [
-						{
-								"visibility": "on"
-						}
-				]
-		},
-		{
-				"featureType": "water",
-				"elementType": "all",
-				"stylers": [
-						{
-								"visibility": "simplified"
-						},
-						{
-								"color": "#84afa3"
-						},
-						{
-								"lightness": 52
-						}
-				]
-		},
-		{
-				"featureType": "water",
-				"elementType": "geometry",
-				"stylers": [
-						{
-								"visibility": "on"
-						}
-				]
-		},
-		{
-				"featureType": "water",
-				"elementType": "geometry.fill",
-				"stylers": [
-						{
-								"visibility": "on"
-						}
-				]
-		}
+        "featureType": "administrative",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "stylers": [
+            {
+                "color": "#abbaa4"
+            }
+        ]
+    },
+    {
+        "featureType": "transit.line",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#3f518c"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "stylers": [
+            {
+                "color": "#ad9b8d"
+            }
+        ]
+    }
 ];
-
+	// defines the initial map and zoom level
 	self.map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 14,
 		styles: styles
@@ -305,10 +149,12 @@ var ViewModel = function() {
 		// Get the position from the location array.
 		var lat = places[i].location;
 		var title = places[i].title;
+		var fs = places[i].fs;
 		// Create a marker per location, and put into markers array.
 		var marker = new google.maps.Marker({
 			map: map,
 			position: lat,
+			fs: fs,
 			title: title,
 			animation: google.maps.Animation.DROP,
 			icon: defaultIcon,
@@ -317,12 +163,23 @@ var ViewModel = function() {
 
 		markers.push(marker);
 
-		// Create an onclick event to open the large infowindow at each marker.
+		// Create an onclick event to open the large infowindow at each marker and
+		// calls the ajax request on click to query foursquare for the menu and locations
+		// information.
 		marker.addListener('click', function() {
 			var marker = this;
-			foodWindow.setContent("<div> This fantastic location is: <strong>" + marker.title + "</strong>"+
-			"</div><br><div>All<br>My<br>Food<br>Info<br>Here!</div>");
-			foodWindow.open(map, marker);
+			$.ajax({
+					type: 'GET',
+					dataType: 'jsonp',
+					url: "https://api.foursquare.com/v2/venues/search?query=" + fs + "&near=Helena+MT&client_id=GWJ522P5CWHSKMEU3YUXCRVBKYWWFRCTFAYMLPPIY4OPDRLH&client_secret=OVELCGKYUQV3JJEGAZSRHKN0CFV52P4I5OKQNHBFZCBHHSN1&v=20160917"
+			}).done(function(response) {
+				foodWindow.setContent("<div> This fantastic location is: <strong>" + marker.title + "</strong>"+
+				"</div><br><br><div style='text-align: center'>" + response.response.venues[0].location.formattedAddress +
+				"<br> <a href='" + response.response.venues[0].menu.mobileUrl + "'>Click for the menu!</a></div>");
+				foodWindow.open(map, marker);
+			}).fail(function(jqXHR) {
+					alert('Error: ' + jqXHR.status + ' - Service Currently Unavailable (Try again later)');
+			});
 			toggleDrop(this);
 		});
 
@@ -332,20 +189,20 @@ var ViewModel = function() {
 					marker.setAnimation(null);
 				} else {
 					marker.setAnimation(google.maps.Animation.DROP);
-					marker.setIcon(highlightedIcon);
+					marker.setIcon("markers/crossed-knife-and-fork-highlighted.png");
 					setTimeout(function() {
-						marker.setIcon(defaultIcon);
-					}, 3000);
+						marker.setIcon("markers/crossed-knife-and-fork.png");
+					}, 1750);
 				}
 		}
 
 		// Two event listeners - one for mouseover, one for mouseout,
 		// to change the colors back and forth.
 		marker.addListener('mouseover', function() {
-			this.setIcon(highlightedIcon);
+			this.setIcon("markers/crossed-knife-and-fork-highlighted.png");
 		});
 		marker.addListener('mouseout', function() {
-			this.setIcon(defaultIcon);
+			this.setIcon("markers/crossed-knife-and-fork.png");
 		});
 
 	}
@@ -366,12 +223,8 @@ var ViewModel = function() {
 	// of 0, 0 and be anchored at 10, 34).
 	function makeMarkerIcon(markerColor) {
 		var markerImage = new google.maps.MarkerImage(
-			'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
-			'|40|_|%E2%80%A2',
-			new google.maps.Size(21, 34),
-			new google.maps.Point(0, 0),
-			new google.maps.Point(10, 34),
-			new google.maps.Size(21,34));
+			"markers/crossed-knife-and-fork.png"
+		)
 		return markerImage;
 	}
 
@@ -379,15 +232,17 @@ var ViewModel = function() {
 
 };
 
-// This function is designed to activate the marker on click for anything that
-// isn't the marker.
-function remoteMarker(place) {
-	var marker = place.marker;
+// This function is designed to activate the marker on click for the list items
+function remoteMarker() {
 	google.maps.event.trigger(this, 'click');
 
 }
-
+// allows the initial google maps callback to initialize the ViewModel
 function initMap() {
     var vm = new ViewModel();
     ko.applyBindings(vm);
 }
+
+
+// Fork and Knife Icons Attribution: http://www.flaticon.com/free-icon/restaurant_93192#term=fork&page=1&position=46 by Freepik
+//
