@@ -17,8 +17,12 @@ var query = ko.observable('');
 // filters the markers using a forced lowercase evaluation between query and each title in the list
 var filteredMarkers = ko.computed(function() {
 	return markers().filter(function(fmarker) {
-		if(!query() || fmarker.title.toLowerCase().indexOf(query().toLowerCase()) !== -1)
+		if(!query() || fmarker.title.toLowerCase().indexOf(query().toLowerCase()) !== -1){
+			fmarker.setVisible(true);
 			return fmarker;
+		} else {
+			fmarker.setVisible(false);
+		}
 	});
 }, this);
 
@@ -208,9 +212,9 @@ var ViewModel = function() {
 	function showMarkers() {
 		var bounds = new google.maps.LatLngBounds();
 		// Extend the boundaries of the map for each marker and display the marker
-		for (var i = 0; i < markers().length; i++) {
-			markers()[i].setMap(map);
-			bounds.extend(markers()[i].position);
+		for (var i = 0; i < filteredMarkers().length; i++) {
+			filteredMarkers()[i].setMap(map);
+			bounds.extend(filteredMarkers()[i].position);
 		}
 		map.fitBounds(bounds);
 	}
@@ -234,6 +238,11 @@ function remoteMarker() {
 	google.maps.event.trigger(this, 'click');
 
 }
+
+function googleError() {
+	alert("There was an error loading the map!");
+}
+
 // allows the initial google maps callback to initialize the ViewModel
 function initMap() {
     var vm = new ViewModel();
